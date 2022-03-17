@@ -9,3 +9,9 @@ export type Room = {
   owner: string;
   type: RoomType;
 };
+
+export type User = {
+  id: string;
+  name: string;
+  room: string;
+};

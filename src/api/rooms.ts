@@ -12,4 +12,4 @@ export const roomsApi = createApi({
   }),
 });
 
-export const { useAllRoomsQuery } = roomsApi;
+export const { useAllRoomsQuery, useLazyAllRoomsQuery, usePrefetch } = roomsApi;
