@@ -1,25 +1,66 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { Box, Button, Container, TextField } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { connnection, login } from './ws';
+import { RootState } from './store/store';
+import { LoggedInStatus, onLoginStatusChange } from './slices/userSlice';
+
+const theme = createTheme();
 
 function App() {
+  const [username, setUsername] = React.useState('');
+  const dispatch = useDispatch();
+  const { loginStatus } = useSelector((state: RootState) => state.userReducer);
+
+  const handleClick = () => {
+    if (
+      username &&
+      (LoggedInStatus.LoggedOut === loginStatus || LoggedInStatus.Error === loginStatus)
+    ) {
+      login(username);
+      dispatch(
+        onLoginStatusChange({
+          status: LoggedInStatus.Pending,
+          username,
+        }),
+      );
+    }
+  };
+
+  React.useEffect(() => {
+    connnection();
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider theme={theme}>
+      <Container>
+        <Box sx={{ mt: 1 }}>
+          <TextField
+            margin='normal'
+            required
+            fullWidth
+            id='username'
+            label='Username'
+            name='username'
+            autoComplete='username'
+            autoFocus
+            onChange={(e) => setUsername(e.target.value)}
+          />
+
+          <Button
+            type='button'
+            onClick={handleClick}
+            fullWidth
+            variant='contained'
+            sx={{ mt: 3, mb: 2 }}
+          >
+            Sign In
+          </Button>
+        </Box>
+      </Container>
+    </ThemeProvider>
   );
 }
 
