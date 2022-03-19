@@ -8,6 +8,7 @@ import { leaveRoom, letsPlay, sendNumber } from '../../utils/ws';
 import { RootState } from '../../store/store';
 import { disconnectRoom } from '../../slices/userSlice';
 import { onSecondPlayerJoin, resetMoves } from '../../slices/gameSlice';
+import { GameOverBackdrop } from '../GameOverBackdrop/GameOverBackdrop';
 
 export const GameRoom = () => {
   const dispatch = useDispatch();
@@ -113,6 +114,7 @@ export const GameRoom = () => {
           Leave Room
         </Button>
       )}
+      <GameOverBackdrop />
     </Wrapper>
   );
 };

@@ -4,13 +4,14 @@ import { GameMove, GamePlayState, GameResult } from '../types/common';
 interface GameState {
   moves: GameMove[];
   gamePlayState?: GamePlayState;
-  gameResult?: GameResult;
+  gameResult: GameResult | null;
   number?: number;
   secondPlayer?: string;
 }
 
 const initialState: GameState = {
   moves: [],
+  gameResult: null,
 };
 
 const gameSlice = createSlice({
@@ -36,7 +37,9 @@ const gameSlice = createSlice({
       state.moves = [];
     },
     resetGame: (state) => {
-      state = { moves: [] };
+      state.moves = [];
+      state.gameResult = null;
+      state.number = undefined;
     },
   },
 });
