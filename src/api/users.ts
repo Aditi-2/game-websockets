@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { BASE_API } from '../env';
-import { User } from '../types/types';
+import { User } from '../types/common';
 
 export const usersApi = createApi({
   reducerPath: 'usesApi',

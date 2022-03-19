@@ -1,53 +1,54 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-
-export type GameOperation = -1 | 0 | 1;
-export type GameResult = 'win' | 'lose';
-export type PlayerType = 'playerOne' | 'playerTwo';
-export type GameMove = {
-    userId: string;
-    receivedNumber: number;
-    operation: GameOperation;
-    result: number
-}
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { GameMove, GamePlayState, GameResult } from '../types/common';
 
 interface GameState {
-    playerOne?: string;
-    playerTwo?: string;
-    moves: GameMove[];
-    nextMove: 'playerOne' | 'playerTwo'
-    gameResult?: GameResult;
+  moves: GameMove[];
+  gamePlayState?: GamePlayState;
+  gameResult?: GameResult;
+  number?: number;
+  secondPlayer?: string;
 }
 
 const initialState: GameState = {
-    moves: [],
-    nextMove: 'playerOne',
-}
+  moves: [],
+};
 
 const gameSlice = createSlice({
-    name: 'gameSlice',
-    initialState,
-    reducers: {
-      addMove(state, action: PayloadAction<GameMove>) {
-        state.moves.push(action.payload)
-      },
-      setGameResult(state, action: PayloadAction<GameResult>) {
-        state.gameResult = action.payload
-      },
-      setNextPlayer(state, action: PayloadAction<PlayerType>) {
-          state.nextMove = action.payload
-      },
-      setPlayer(state, action: PayloadAction<{type: PlayerType, playerId: string}>) {
-          const {playerId, type} = action.payload;
-          state[type] = playerId
-      }
-    }
-  })
+  name: 'gameSlice',
+  initialState,
+  reducers: {
+    addMove(state, action: PayloadAction<GameMove>) {
+      state.moves.push(action.payload);
+    },
+    onGameOver(state, action: PayloadAction<GameResult>) {
+      state.gameResult = action.payload;
+    },
+    onGamePlayStateChange(state, action: PayloadAction<GamePlayState | undefined>) {
+      state.gamePlayState = action.payload;
+    },
+    onNumberReceived: (state, action: PayloadAction<number>) => {
+      state.number = action.payload;
+    },
+    onSecondPlayerJoin: (state, action: PayloadAction<string | undefined>) => {
+      state.secondPlayer = action.payload;
+    },
+    resetMoves: (state) => {
+      state.moves = [];
+    },
+    resetGame: (state) => {
+      state = { moves: [] };
+    },
+  },
+});
 
-  export const {
-    addMove,
-    setGameResult,
-    setNextPlayer,
-    setPlayer
-  } = gameSlice.actions
-  
-  export default gameSlice.reducer
+export const {
+  addMove,
+  onGameOver,
+  onGamePlayStateChange,
+  onNumberReceived,
+  onSecondPlayerJoin,
+  resetMoves,
+  resetGame,
+} = gameSlice.actions;
+
+export default gameSlice.reducer;

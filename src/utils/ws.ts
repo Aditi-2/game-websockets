@@ -1,7 +1,9 @@
 import io from 'socket.io-client';
-import { WS_API } from './env';
+import { WS_API } from '../env';
+import { GameOperation } from '../types/common';
 
 type JoinRoomPayload = { username: string; room: string; roomType: string };
+type SendNumberPayload = { number: number; selectedNumber: GameOperation };
 
 export const socket = io(WS_API ?? '');
 
@@ -13,8 +15,8 @@ export const connnection = () => {
 };
 
 export const disconnect = () => {
-  socket.disconnect()
-}
+  socket.disconnect();
+};
 
 export const login = (username: string) => {
   socket.emit('login', { username });
@@ -30,4 +32,8 @@ export const letsPlay = () => {
 
 export const leaveRoom = () => {
   socket.emit('leaveRoom');
+};
+
+export const sendNumber = (payload: SendNumberPayload) => {
+  socket.emit('sendNumber', payload);
 };
