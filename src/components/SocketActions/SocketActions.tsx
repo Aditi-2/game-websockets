@@ -7,10 +7,10 @@ import {
   onGamePlayStateChange,
   onNumberReceived,
 } from '../../slices/gameSlice';
+import { userNameSelector, userIdSelector } from '../../slices/selectors';
 import { LoggedInStatus, onLoginStatusChange } from '../../slices/userSlice';
-import { RootState } from '../../store/store';
 import { GameOperation, GamePlayState } from '../../types/common';
-import { socket } from './ws';
+import { getWebSocketInstance } from './ws';
 
 const roundToTwoDecimals = (num: number) => Math.round((num + Number.EPSILON) * 100) / 100;
 
@@ -20,8 +20,9 @@ const roundToTwoDecimals = (num: number) => Math.round((num + Number.EPSILON) * 
 export const SocketActions = () => {
   const dispatch = useDispatch();
   const { refetch } = useAllUsersQuery();
-  const username = useSelector((state: RootState) => state.userReducer.username);
-  const userId = useSelector((state: RootState) => state.userReducer.userId);
+  const username = useSelector(userNameSelector);
+  const userId = useSelector(userIdSelector);
+  const socket = getWebSocketInstance();
 
   React.useEffect(() => {
     /**

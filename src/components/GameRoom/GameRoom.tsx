@@ -5,18 +5,18 @@ import { UserInput } from './UserInput/UserInput';
 import { Wrapper, UserInputContainer, GameRoomMovesContainer } from './GameRoom.styled';
 import { leaveRoom, letsPlay, sendNumber } from '../SocketActions/ws';
 
-import { RootState } from '../../store/store';
 import { disconnectRoom } from '../../slices/userSlice';
 import { onSecondPlayerJoin, resetMoves } from '../../slices/gameSlice';
 import { GameOverBackdrop } from '../GameOverBackdrop/GameOverBackdrop';
 import { GameOperation } from '../../types/common';
+import { userStateSelector, gameStateSelector } from '../../slices/selectors';
 
 const GAME_OPTIONS: GameOperation[] = [-1, 0, 1];
 
 export const GameRoom = () => {
   const dispatch = useDispatch();
-  const { room, username, roomSelected } = useSelector((state: RootState) => state.userReducer);
-  const { number, gamePlayState, moves } = useSelector((state: RootState) => state.gameReducer);
+  const { room, username, roomSelected } = useSelector(userStateSelector);
+  const { number, gamePlayState, moves } = useSelector(gameStateSelector);
   const ref = React.createRef<HTMLDivElement>();
 
   const handleLeaveRoom = () => {

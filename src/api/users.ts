@@ -3,7 +3,7 @@ import { REST_API } from '../env';
 import { User } from '../types/common';
 
 export const usersApi = createApi({
-  reducerPath: 'usesApi',
+  reducerPath: 'usersApi',
   baseQuery: fetchBaseQuery({ baseUrl: REST_API }),
   endpoints: (builder) => ({
     allUsers: builder.query<User[], void>({

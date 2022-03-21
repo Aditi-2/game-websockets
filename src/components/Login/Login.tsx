@@ -1,15 +1,14 @@
 import React from 'react';
 import { Box, Button, Container, TextField, Grid } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-
 import { login } from '../SocketActions/ws';
-import { RootState } from '../../store/store';
 import { LoggedInStatus, onLoginStatusChange } from '../../slices/userSlice';
+import { userStateSelector } from '../../slices/selectors';
 
 export const Login = () => {
   const [username, setUsername] = React.useState('');
   const dispatch = useDispatch();
-  const { loginStatus } = useSelector((state: RootState) => state.userReducer);
+  const { loginStatus } = useSelector(userStateSelector);
 
   const handleClick = () => {
     if (

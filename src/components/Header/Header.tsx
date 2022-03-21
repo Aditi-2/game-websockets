@@ -1,27 +1,21 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useAllUsersQuery } from '../../api/users';
+import { useSecondPlayerName } from '../../hooks';
 import { onSecondPlayerJoin } from '../../slices/gameSlice';
-import { RootState } from '../../store/store';
+import { userStateSelector } from '../../slices/selectors';
 import { Wrapper, StyledWrapper, Title, Moto, Logo } from './Header.styled';
 
 export const Header = () => {
-  const { data = [] } = useAllUsersQuery();
   const dispatch = useDispatch();
-  const room = useSelector((state: RootState) => state.userReducer.room);
-  const roomJoined = useSelector((state: RootState) => state.userReducer.roomSelected);
-  const roomType = useSelector((state: RootState) => state.userReducer.roomType);
-  const username = useSelector((state: RootState) => state.userReducer.username);
-
-  const secondPlayer =
-    roomType === 'human' ? data.find((o) => o.name !== username && o.room === room)?.name : 'CPU';
+  const { room, roomSelected, roomType, username } = useSelector(userStateSelector);
+  const secondPlayer = useSecondPlayerName(room, roomType);
 
   React.useEffect(() => {
     dispatch(onSecondPlayerJoin(secondPlayer));
   }, [secondPlayer, roomType]);
 
   const loginTitle = !username ? 'Login' : undefined;
-  const roomTitle = username && !roomJoined ? 'Join a room to play' : undefined;
+  const roomTitle = username && !roomSelected ? 'Join a room to play' : undefined;
   const secondPlayerTitle = secondPlayer
     ? `Playing with ${secondPlayer}`
     : 'Waiting for other players';

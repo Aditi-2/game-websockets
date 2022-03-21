@@ -5,7 +5,14 @@ import { GameOperation } from '../../types/common';
 type JoinRoomPayload = { username: string; room: string; roomType: string };
 type SendNumberPayload = { number: number; selectedNumber: GameOperation };
 
-export const socket = io(WS_API ?? '');
+let socket = io(WS_API ?? '');
+
+export const getWebSocketInstance = () => {
+  if (!socket) {
+    socket = io(WS_API ?? '');
+  }
+  return socket;
+};
 
 export const connnection = () => {
   socket.connect();

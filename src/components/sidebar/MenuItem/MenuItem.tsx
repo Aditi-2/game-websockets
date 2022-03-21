@@ -4,16 +4,15 @@ import { MenuWrapper, ItemContent } from './MenuItem.styled';
 import { ReactComponent as Arrow } from '../../../icons/arrow.svg';
 import { Room } from '../../../types/common';
 import { joinRoom } from '../../SocketActions/ws';
-import { RootState } from '../../../store/store';
 import { onSecondPlayerJoin } from '../../../slices/gameSlice';
-import { useAllUsersQuery } from '../../../api/users';
 import { onRoomConnectionChange } from '../../../slices/userSlice';
+import { userNameSelector } from '../../../slices/selectors';
+import { useSecondPlayerName } from '../../../hooks';
 
-export const MenuItem = ({ item: { id, name, owner, type } }: { item: Room }) => {
+export const MenuItem = ({ item: { id, name, type } }: { item: Room }) => {
   const dispatch = useDispatch();
-  const { data = [] } = useAllUsersQuery();
-  const username = useSelector((state: RootState) => state.userReducer.username) ?? '';
-  const secondPlayer = data.find((o) => o.name !== username && o.room === id);
+  const username = useSelector(userNameSelector) ?? '';
+  const secondPlayerName = useSecondPlayerName(id, type);
 
   return (
     <MenuWrapper
@@ -25,11 +24,7 @@ export const MenuItem = ({ item: { id, name, owner, type } }: { item: Room }) =>
             type,
           }),
         );
-        if (type === 'cpu') {
-          dispatch(onSecondPlayerJoin('CPU'));
-        } else if (type === 'human' && secondPlayer) {
-          dispatch(onSecondPlayerJoin(secondPlayer.name));
-        }
+        dispatch(onSecondPlayerJoin(secondPlayerName));
       }}
     >
       <ItemContent>
