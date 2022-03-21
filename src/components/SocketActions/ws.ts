@@ -1,6 +1,6 @@
 import io from 'socket.io-client';
-import { WS_API } from '../env';
-import { GameOperation } from '../types/common';
+import { WS_API } from '../../env';
+import { GameOperation } from '../../types/common';
 
 type JoinRoomPayload = { username: string; room: string; roomType: string };
 type SendNumberPayload = { number: number; selectedNumber: GameOperation };

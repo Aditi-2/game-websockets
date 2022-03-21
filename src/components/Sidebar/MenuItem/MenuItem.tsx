@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { MenuWrapper, ItemContent } from './MenuItem.styled';
 import { ReactComponent as Arrow } from '../../../icons/arrow.svg';
 import { Room } from '../../../types/common';
-import { joinRoom } from '../../../utils/ws';
+import { joinRoom } from '../../SocketActions/ws';
 import { RootState } from '../../../store/store';
 import { onSecondPlayerJoin } from '../../../slices/gameSlice';
 import { useAllUsersQuery } from '../../../api/users';

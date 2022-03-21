@@ -2,7 +2,7 @@ import React from 'react';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useSelector } from 'react-redux';
 
-import { connnection } from '../../utils/ws';
+import { connnection } from '../SocketActions/ws';
 import { RootState } from '../../store/store';
 import { LoggedInStatus } from '../../slices/userSlice';
 import { Login } from '../Login/Login';
@@ -21,7 +21,6 @@ function App() {
     prefetchAllRooms();
   }, []);
 
-  console.log('loginStatus', LoggedInStatus.LoggedIn === loginStatus);
   return (
     <ThemeProvider theme={theme}>
       <Header />

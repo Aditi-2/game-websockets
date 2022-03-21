@@ -1,8 +1,8 @@
 import React from 'react';
-import { Box, Button, Container, TextField } from '@mui/material';
+import { Box, Button, Container, TextField, Grid } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { login } from '../../utils/ws';
+import { login } from '../SocketActions/ws';
 import { RootState } from '../../store/store';
 import { LoggedInStatus, onLoginStatusChange } from '../../slices/userSlice';
 
@@ -28,28 +28,33 @@ export const Login = () => {
 
   return (
     <Container>
-      <Box sx={{ mt: 1 }}>
-        <TextField
-          margin='normal'
-          required
-          fullWidth
-          id='username'
-          label='Username'
-          name='username'
-          autoComplete='username'
-          autoFocus
-          onChange={(e) => setUsername(e.target.value)}
-        />
-
-        <Button
-          type='button'
-          onClick={handleClick}
-          fullWidth
-          variant='contained'
-          sx={{ mt: 3, mb: 2 }}
-        >
-          Sign In
-        </Button>
+      <Box sx={{ mt: 10, px: 20 }}>
+        <Grid container direction='column'>
+          <Grid item>
+            <TextField
+              margin='normal'
+              required
+              fullWidth
+              id='username'
+              label='Username'
+              name='username'
+              autoComplete='username'
+              autoFocus
+              onChange={(e) => setUsername(e.target.value)}
+            />
+          </Grid>
+          <Grid item>
+            <Button
+              type='button'
+              onClick={handleClick}
+              fullWidth
+              variant='contained'
+              sx={{ mt: 3, mb: 2 }}
+            >
+              Sign In
+            </Button>
+          </Grid>
+        </Grid>
       </Box>
     </Container>
   );

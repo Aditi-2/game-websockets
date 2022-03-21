@@ -1,11 +1,16 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useAllUsersQuery } from './api/users';
-import { addMove, onGameOver, onGamePlayStateChange, onNumberReceived } from './slices/gameSlice';
-import { LoggedInStatus, onLoginStatusChange } from './slices/userSlice';
-import { RootState } from './store/store';
-import { GameOperation, GamePlayState } from './types/common';
-import { socket } from './utils/ws';
+import { useAllUsersQuery } from '../../api/users';
+import {
+  addMove,
+  onGameOver,
+  onGamePlayStateChange,
+  onNumberReceived,
+} from '../../slices/gameSlice';
+import { LoggedInStatus, onLoginStatusChange } from '../../slices/userSlice';
+import { RootState } from '../../store/store';
+import { GameOperation, GamePlayState } from '../../types/common';
+import { socket } from './ws';
 
 const roundToTwoDecimals = (num: number) => Math.round((num + Number.EPSILON) * 100) / 100;
 

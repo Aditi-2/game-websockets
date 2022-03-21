@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Button, Typography, Fab, Grid } from '@mui/material';
 import { UserInput } from './UserInput/UserInput';
 import { Wrapper, UserInputContainer, GameRoomMovesContainer } from './GameRoom.styled';
-import { leaveRoom, letsPlay, sendNumber } from '../../utils/ws';
+import { leaveRoom, letsPlay, sendNumber } from '../SocketActions/ws';
 
 import { RootState } from '../../store/store';
 import { disconnectRoom } from '../../slices/userSlice';

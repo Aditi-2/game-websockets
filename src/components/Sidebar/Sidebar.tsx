@@ -11,7 +11,7 @@ export const Sidebar = () => {
     <Wrapper>
       <Title>Choose you game room</Title>
       {data.map((room) => (
-        <MenuItem item={room} />
+        <MenuItem item={room} key={room.name} />
       ))}
     </Wrapper>
   );
