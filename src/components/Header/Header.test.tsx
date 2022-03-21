@@ -33,6 +33,8 @@ describe('Header', () => {
     jest.spyOn(reactRedux, 'useSelector').mockReturnValue({
       username: 'user',
       roomSelected: true,
+      room: 'abc',
+      roomType: 'cpu',
     });
     jest.spyOn(hooks, 'useSecondPlayerName').mockReturnValue('CPU');
     render(
@@ -48,6 +50,8 @@ describe('Header', () => {
     jest.spyOn(reactRedux, 'useSelector').mockReturnValue({
       username: 'user',
       roomSelected: true,
+      room: 'abc',
+      roomType: 'human',
     });
     jest.spyOn(hooks, 'useSecondPlayerName').mockReturnValue(undefined);
 
