@@ -19,6 +19,15 @@ export const GameRoom = () => {
   const { number, gamePlayState, moves } = useSelector((state: RootState) => state.gameReducer);
   const ref = React.createRef<HTMLDivElement>();
 
+  const handleLeaveRoom = () => {
+    leaveRoom();
+    dispatch(disconnectRoom());
+    dispatch(onSecondPlayerJoin());
+  };
+
+  /**
+   * Scroll to last move
+   */
   React.useEffect(() => {
     ref.current?.scrollIntoView({ behavior: 'smooth' });
   }, [moves.length]);
@@ -59,19 +68,7 @@ export const GameRoom = () => {
             )}
         </div>
       </GameRoomMovesContainer>
-      {gamePlayState === 'wait' && <Typography>Waiting for the turn</Typography>}
-      {room && typeof number === 'undefined' && gamePlayState === 'play' && (
-        <Button
-          type='button'
-          onClick={letsPlay}
-          fullWidth
-          variant='contained'
-          sx={{ mt: 3, mb: 2 }}
-        >
-          Let&apos;s Play
-        </Button>
-      )}
-      {gamePlayState === 'play' && room && typeof number !== 'undefined' && (
+      <div>
         <Grid
           container
           display='flex'
@@ -80,38 +77,57 @@ export const GameRoom = () => {
           alignItems='center'
           justifyContent='center'
         >
-          {GAME_OPTIONS.map((selectedNumber: GameOperation) => (
-            <Grid item xs={4} display='flex' justifyContent='center' key={selectedNumber}>
-              <Fab
-                sx={{ mt: 3, mb: 2 }}
-                aria-label={`add ${selectedNumber}`}
-                size='large'
-                onClick={() => sendNumber({ number, selectedNumber })}
-                disableFocusRipple
-                disableRipple
-                disableTouchRipple
-              >
-                {selectedNumber}
-              </Fab>
+          {gamePlayState === 'wait' && (
+            <Grid item xs={12} sx={{ minHeight: '6em' }}>
+              <Typography sx={{ mt: 3, mb: 2 }}>Waiting for the turn....</Typography>
             </Grid>
-          ))}
+          )}
+          {room && typeof number === 'undefined' && gamePlayState === 'play' && (
+            <Grid item xs={12}>
+              <Button type='button' onClick={letsPlay} variant='contained' fullWidth sx={{ mb: 2 }}>
+                Let&apos;s Play
+              </Button>
+            </Grid>
+          )}
+          {gamePlayState === 'play' &&
+            room &&
+            typeof number !== 'undefined' &&
+            GAME_OPTIONS.map((selectedNumber: GameOperation) => (
+              <Grid
+                item
+                xs={4}
+                display='flex'
+                justifyContent='center'
+                key={selectedNumber}
+                sx={{ minHeight: '6em' }}
+              >
+                <Fab
+                  sx={{ mt: 3, mb: 2 }}
+                  aria-label={`add ${selectedNumber}`}
+                  size='large'
+                  onClick={() => sendNumber({ number, selectedNumber })}
+                  disableFocusRipple
+                  disableRipple
+                  disableTouchRipple
+                >
+                  {selectedNumber}
+                </Fab>
+              </Grid>
+            ))}
         </Grid>
-      )}
-      {roomSelected && (
-        <Button
-          type='button'
-          onClick={() => {
-            leaveRoom();
-            dispatch(disconnectRoom());
-            dispatch(onSecondPlayerJoin());
-          }}
-          fullWidth
-          variant='contained'
-          sx={{ mt: 3, mb: 2 }}
-        >
-          Leave Room
-        </Button>
-      )}
+        {roomSelected && (
+          <Button
+            type='button'
+            sx={{ mb: 2 }}
+            fullWidth
+            onClick={handleLeaveRoom}
+            variant='contained'
+          >
+            Leave Room
+          </Button>
+        )}
+      </div>
+
       <GameOverBackdrop />
     </Wrapper>
   );

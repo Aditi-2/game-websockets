@@ -11,9 +11,8 @@ export const Wrapper = styled.div`
 export const Container = styled.div<{ reverse?: boolean }>`
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: ${({ reverse }) => (reverse ? 'flex-end' : 'flex-start')};
   max-width: 40%;
-  min-width: 40%;
   flex-direction: ${({ reverse }) => (reverse ? 'row-reverse' : 'row')};
 `;
 

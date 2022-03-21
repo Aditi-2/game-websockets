@@ -49,4 +49,5 @@ export const GameRoomMovesContainer = styled.div`
   height: 32em;
   overflow-x: hidden;
   overflow-y: auto;
+  margin-bottom: 5em;
 `;
